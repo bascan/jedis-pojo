@@ -6,7 +6,7 @@ Here's an example the shows you how to use the self-loading capability of the ca
 You basically pass a Supplier with a lambda to the CacheService, which is invoked when
 the instance was not found.
 ```java
-// Get an instance of MyModelClass from the cache when it exists.
+// Get an instance of MyModelClass from the cache located at endpoint 'localhost' when it was found.
 // Otherwise, get it from the MyModelDao and put it in the cache with a TTL of 5 minutes.
 CacheService cache = CacheServiceImpl.getInstance("localhost"));
 MyModelClass result = cache.get(key, () -> {
