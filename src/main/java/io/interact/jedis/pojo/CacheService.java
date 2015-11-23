@@ -18,6 +18,9 @@ public interface CacheService {
      *            Value to cache. * @param ttl Set the cached TTL to the
      *            supplied value or don't set the TTL when the supplied value is
      *            null.
+     * @param ttl
+     *            Set the cached TTL to the supplied value or don't set the TTL
+     *            when the supplied value is null.
      */
     void put(String key, Object value, Integer ttl);
 
@@ -38,6 +41,8 @@ public interface CacheService {
      * Convenience method that calls
      * {@link CacheService#get(String, Supplier, Class, Integer)} without a TTL.
      * 
+     * @param <T>
+     *            The pojo that is loaded or cached.
      * @param key
      *            Key used to lookup and save.
      * @param loader
@@ -53,6 +58,8 @@ public interface CacheService {
      * get the value from the supplied loader and put it in the cache with the
      * supplied TTL in seconds.
      * 
+     * @param <T>
+     *            The pojo that is loaded or cached.
      * @param key
      *            Key used to lookup and save.
      * @param loader
