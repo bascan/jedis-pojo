@@ -1,0 +1,106 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = "io.interact"
+archivesBaseName = "jedis-pojo"
+version = '0.0.1'
+
+def ossrhUsername = hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
+def ossrhPassword = hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
+
+uploadArchives {
+    repositories {
+      mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+  
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
+  
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
+  
+        pom.project {
+          name 'jedis-pojo'
+          packaging 'jar'
+          description 'Simple self-loading pojo cache service based on Jedis.'
+          url 'https://github.com/bascan/jedis-pojo'
+  
+          scm {
+            connection 'scm:git:https://github.com/bascan/jedis-pojo.git'
+            developerConnection 'scm:git:https://github.com/bascan/jedis-pojo.git'
+            url 'https://github.com/bascan/jedis-pojo.git'
+          }
+  
+          licenses {
+            license {
+              name 'The Apache License, Version 2.0'
+              url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+          }
+  
+          developers {
+            developer {
+              id 'bascan'
+              name 'Bas Cancrinus'
+            }
+          }
+        }
+      }
+    }
+  }
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+dependencies {
+	compile 'redis.clients:jedis:2.7.3'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-all:1.10.8'
+ }
+
+
+jar {
+    manifest {
+        attributes 'Built-Date': new Date() //now
+        attributes 'Built-By': System.getProperty('user.name')
+        attributes 'Build-Jdk': System.getProperty('java.version')
+        attributes 'Implementation-Title': "${applicationName}"
+        attributes 'Implementation-Version': "${applicationVersion}"
+        attributes 'Implementation-Vendor-Id': "${applicationGroup}"
+    }
+}
