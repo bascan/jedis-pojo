@@ -1,6 +1,23 @@
 # jedis-pojo
 Simple self-loading pojo cache service based on Jedis.
 
+##### Maven dependency:
+```xml
+<dependency>
+	<groupId>io.interact</groupId>
+	<artifactId>jedis-pojo</artifactId>
+	<version>0.0.1</version>
+</dependency>
+```
+
+Optional: exclude jackson-databind to avoid version conflicts, which can typically happen when it
+is loaded as a transitive dependency by e.g. Dropwizard and Jersey.
+```xml
+<groupId>com.fasterxml.jackson.core</groupId>
+<artifactId>jackson-databind</artifactId>
+<version>2.6.3</version>
+```
+
 ##### Usage:
 Here's an example the shows you how to use the self-loading capability of the cache.
 You basically pass a Supplier with a lambda to the CacheService, which is invoked when
