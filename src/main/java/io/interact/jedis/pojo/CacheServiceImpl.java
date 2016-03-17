@@ -25,7 +25,8 @@ public class CacheServiceImpl implements CacheService {
     private final JedisPool pool;
 
     /**
-     * Get {@link CacheService} instance for the supplied Redis endpoint.
+     * Get {@link CacheService} instance for the supplied Redis endpoint. The
+     * syntax of the supplied endpoint should be <code>host[:port]</code>.
      * 
      * @param endpoint
      *            The Redis endpoint to be accessed by the returned instance.
@@ -35,15 +36,24 @@ public class CacheServiceImpl implements CacheService {
         synchronized (CacheServiceImpl.class) {
             CacheServiceImpl instance = INSTANCE_MAP.get(endpoint);
             if (instance == null) {
-                instance = new CacheServiceImpl(endpoint);
+                if (endpoint.contains(":")) {
+                    String[] parts = endpoint.split(":");
+                    instance = new CacheServiceImpl(parts[0], Integer.parseInt(parts[1]));
+                } else {
+                    instance = new CacheServiceImpl(endpoint);
+                }
                 INSTANCE_MAP.put(endpoint, instance);
             }
             return instance;
         }
     }
 
-    private CacheServiceImpl(String endpoint) {
-        pool = new JedisPool(new JedisPoolConfig(), endpoint);
+    private CacheServiceImpl(String host) {
+        pool = new JedisPool(new JedisPoolConfig(), host);
+    }
+
+    private CacheServiceImpl(String host, int port) {
+        pool = new JedisPool(new JedisPoolConfig(), host, port);
     }
 
     @Override
