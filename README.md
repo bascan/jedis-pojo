@@ -6,7 +6,7 @@ Simple self-loading pojo cache service based on Jedis.
 <dependency>
 	<groupId>io.interact</groupId>
 	<artifactId>jedis-pojo</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 </dependency>
 ```
 
@@ -29,6 +29,11 @@ CacheService cache = CacheServiceImpl.getInstance("localhost"));
 MyModelClass result = cache.get(key, () -> {
                 return MyModelDao.get(key);
             } , MyModelClass.class, 300);
+```
+
+Note that you can use a custom port as well:
+```
+CacheService cache = CacheServiceImpl.getInstance("localhost:12345"));
 ```
 
 Here's an example of the put and evict methods:
