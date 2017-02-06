@@ -1,5 +1,7 @@
 package io.interact.jedis.pojo;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -38,6 +40,16 @@ public interface CacheService {
     void put(String key, Object value);
 
     /**
+     * Add supplied values into the set contained at the key.
+     * 
+     * @param key
+     *            key that contains the set
+     * @param values
+     *            values to insert in the set
+     */
+    void addToSet(String key, Set<Object> values);
+
+    /**
      * Convenience method that calls
      * {@link CacheService#get(String, Supplier, Class, Integer)} without a TTL.
      * 
@@ -74,11 +86,34 @@ public interface CacheService {
     <T> T get(String key, Supplier<T> loader, Class<T> out, Integer ttl);
 
     /**
+     * Get set values contained at key.
+     * 
+     * @param key
+     * @return
+     */
+
+    <T> Set<T> getMembers(String key, Supplier<Set<T>> loader, Class<T> out);
+
+    /**
      * Evict value by the supplied key from cache.
      * 
      * @param key
      *            Key of the cached value to evict.
      */
     void evict(String key);
+
+    /**
+     * Execute batch delete and update operations on redis sets.
+     * 
+     * @param deletes
+     *            deletes operations : the keys of the map are the redis keys
+     *            and the values are the set members to delete in the set
+     *            contained at that key
+     * @param inserts
+     *            inserts operations : the keys of the map are the redis keys
+     *            and the values are the set members to insert in the set
+     *            contained at that key
+     */
+    void bulkSetInsertAndDelete(Map<String, Set<Object>> deletes, Map<String, Set<Object>> inserts);
 
 }
