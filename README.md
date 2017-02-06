@@ -1,22 +1,8 @@
 # jedis-pojo
-Simple self-loading pojo cache service based on Jedis.
-
-##### Maven dependency:
-```xml
-<dependency>
-	<groupId>io.interact</groupId>
-	<artifactId>jedis-pojo</artifactId>
-	<version>0.0.2</version>
-</dependency>
-```
-
-Optional: exclude jackson-databind to avoid version conflicts, which can typically happen when it
-is loaded as a transitive dependency by e.g. Dropwizard and Jersey.
-```xml
-<groupId>com.fasterxml.jackson.core</groupId>
-<artifactId>jackson-databind</artifactId>
-<version>2.6.3</version>
-```
+Simple self-loading pojo cache service based on Jedis. 
+You can find the latest release on Maven Central: <http://search.maven.org> under:
+- Group ID: ``io.interact``
+- Artifact ID: ``jedis-pojo``
 
 ##### Usage:
 Here's an example the shows you how to use the self-loading capability of the cache.
@@ -44,4 +30,13 @@ cache.put(key, myInstance, 60);
 
 // And evict it
 cache.evict(key);
+```
+
+##### Optional:
+Exclude jackson-databind to avoid version conflicts, which can typically happen when it
+is loaded as a transitive dependency by e.g. Dropwizard and Jersey.
+```xml
+<groupId>com.fasterxml.jackson.core</groupId>
+<artifactId>jackson-databind</artifactId>
+<version>2.6.3</version>
 ```
