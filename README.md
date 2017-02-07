@@ -32,6 +32,30 @@ cache.put(key, myInstance, 60);
 cache.evict(key);
 ```
 
+This library also implements redis set capabilities: 
+```java 
+CacheService cache = CacheServiceImpl.getInstance("localhost");
+// Add instances to my set. 
+Set<MyInstance> instances = new HashSet<>(Arrays.asList(myInstance1, myInstance2));
+cache.addToSet(key, instances);
+
+// Fetch set content
+Set<MyInstance> cachedInstances = cache.getMembers(key, () -> dao.getSet(key), MyInstance.class);
+
+//evict cache
+cache.evict(key);
+```
+It is also possible to do batch inserts and deletes to the redis sets: 
+```java
+Map<String, Set<Object>> inserts = new HashMap<>();
+inserts.put(key, new HashSet<>(Arrays.asList(myInstance)));
+inserts.put(key2, new HashSet<>(Arrays.asList(otherInstance)));
+
+Map<String, Set<Object>> deletes = new HashMap<>();
+deletes.put(key3, new HashSet<>(Arrays.asList(myInstance2)));
+
+cache.bulkSetInsertAndDelete(deletes, inserts);
+```
 ##### Optional:
 Exclude jackson-databind to avoid version conflicts, which can typically happen when it
 is loaded as a transitive dependency by e.g. Dropwizard and Jersey.
