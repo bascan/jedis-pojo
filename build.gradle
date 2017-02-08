@@ -26,7 +26,7 @@ targetCompatibility = 1.8
 
 group = "io.interact"
 archivesBaseName = "jedis-pojo"
-version = '0.0.1'
+version = '1.0.0'
 
 def ossrhUsername = hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
 def ossrhPassword = hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
