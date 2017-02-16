@@ -100,7 +100,7 @@ public interface CacheService {
      * @param key
      *            Key of the cached value to evict.
      */
-    void evict(String key);
+    void evict(String... keys);
 
     /**
      * Execute batch delete and update operations on redis sets.
