@@ -143,9 +143,9 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public void evict(String key) {
+    public void evict(String... keys) {
         try (Jedis jedis = pool.getResource()) {
-            jedis.del(key);
+            jedis.del(keys);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

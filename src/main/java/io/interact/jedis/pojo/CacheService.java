@@ -95,12 +95,12 @@ public interface CacheService {
     <T> Set<T> getMembers(String key, Supplier<Set<T>> loader, Class<T> out);
 
     /**
-     * Evict value by the supplied key from cache.
+     * Evict value by the supplied keys from cache.
      * 
-     * @param key
-     *            Key of the cached value to evict.
+     * @param keys
+     *            Keys of the cached value to evict.
      */
-    void evict(String key);
+    void evict(String... keys);
 
     /**
      * Execute batch delete and update operations on redis sets.
