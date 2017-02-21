@@ -96,7 +96,9 @@ public class CacheServiceImpl implements CacheService {
             return cached;
         }
         Set<T> loaded = loader.get();
-        addToSet(key, (Set<Object>) loaded);
+        if (!loaded.isEmpty()) {
+            addToSet(key, (Set<Object>) loaded);
+        }
         return loaded;
 
     }
